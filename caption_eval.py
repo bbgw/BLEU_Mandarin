@@ -3,7 +3,7 @@ from pycocoevalcap.rouge.rouge import Rouge
 from pycocoevalcap.cider.cider import Cider
 from pycocoevalcap.meteor.meteor import Meteor
 from pycocoevalcap.tokenizer.ptbtokenizer import PTBTokenizer
-import os, cPickle
+import os, pickle
 import pdb
 import jieba
 import sys
@@ -11,7 +11,7 @@ import sys
 
 class COCOScorer(object):
     def __init__(self):
-        print 'init COCO-EVAL scorer'
+        print('init COCO-EVAL scorer')
             
     def score(self, GT, RES, IDs):
         self.eval = {}
@@ -22,7 +22,7 @@ class COCOScorer(object):
             # print ID
             gts[ID] = GT[ID]
             res[ID] = RES[ID]
-        print 'tokenization...'
+        print('tokenization...')
         tokenizer = PTBTokenizer()
         gts  = tokenizer.tokenize(gts)
         res = tokenizer.tokenize(res)
@@ -30,7 +30,7 @@ class COCOScorer(object):
         # =================================================
         # Set up scorers
         # =================================================
-        print 'setting up scorers...'
+        print('setting up scorers...')
         scorers = [
             (Bleu(4), ["Bleu_1", "Bleu_2", "Bleu_3", "Bleu_4"])#,
             # (Meteor(),"METEOR"),
@@ -43,18 +43,18 @@ class COCOScorer(object):
         # =================================================
         eval = {}
         for scorer, method in scorers:
-            print 'computing %s score...'%(scorer.method())
+            print('computing %s score...'%(scorer.method()))
             # pdb.set_trace()
             score, scores = scorer.compute_score(gts, res)
             if type(method) == list:
                 for sc, scs, m in zip(score, scores, method):
                     self.setEval(sc, m)
                     self.setImgToEvalImgs(scs, IDs, m)
-                    print "%s: %0.3f"%(m, sc)
+                    print("%s: %0.3f"%(m, sc))
             else:
                 self.setEval(score, method)
                 self.setImgToEvalImgs(scores, IDs, method)
-                print "%s: %0.3f"%(method, score)
+                print("%s: %0.3f"%(method, score))
                 
         #for metric, score in self.eval.items():
         #    print '%s: %.3f'%(metric, score)
@@ -74,7 +74,7 @@ class COCOScorer(object):
 def load_pkl(path):    
     f = open(path, 'rb')
     try:
-        rval = cPickle.load(f)
+        rval = pickle.load(f)
     finally:
         f.close()
     return rval
@@ -89,7 +89,7 @@ def score(ref, sample):
     ]
     final_scores = {}
     for scorer, method in scorers:
-        print 'computing %s score with COCO-EVAL...'%(scorer.method())
+        print('computing %s score with COCO-EVAL...'%(scorer.method()))
         _score, scores = scorer.compute_score(ref, sample)
         if type(_score) == list:
             for m, s in zip(method, _score):
@@ -163,7 +163,7 @@ def test_cocoscorer():
         samples[str(i)] = [tok]
 
     final_scores = score(gts, samples)
-    print final_scores
+    print(final_scores)
 
     ################################
     # pdb.set_trace()
