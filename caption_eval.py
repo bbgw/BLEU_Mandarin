@@ -7,6 +7,7 @@ import os, pickle
 import pdb
 import jieba
 import sys
+from pprint import pprint as pp
 
 
 class COCOScorer(object):
@@ -143,8 +144,7 @@ def test_cocoscorer():
     # with open('tst.txt','r') as f2:
     with open(tst_filename,'r') as f2:
         sents = f2.readlines() # read lines of input file
-    num_sent = len(sents)
-    num_sent = 1
+        num_sent = len(sents)
 
     for i in range(num_sent):
         words = list(jieba.cut(sents[i], cut_all=False)) # tokeize sentence using jieba
@@ -162,6 +162,8 @@ def test_cocoscorer():
         tok = ' '.join(words)
         samples[str(i)] = [tok]
 
+    pp(gts)
+    pp(samples)
     final_scores = score(gts, samples)
     print(final_scores)
 
