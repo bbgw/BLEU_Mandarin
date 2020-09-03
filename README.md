@@ -1,6 +1,6 @@
 ## PREREQUISITES
 
-* [Python 2.7](https://www.python.org/download/releases/2.7/)
+* [Python 3]
 * [Jieba](https://github.com/fxsjy/jieba)
 
 ## HOW TO USE
@@ -26,7 +26,7 @@ perl multi-bleu.perl ref_tok.txt < tst_tok.txt
 python caption_eval.py ref_tok.txt tst_tok.txt 
 ```
 
-Note: For CSL project, after tokenization we may need to do some pre-processing to remove the video and signer IDs in front of each line:
+Note: For CSL project, after tokenizing we may need to do some pre-processing to remove the video and signer IDs in front of each line:
 ```
 python preproc.py data/ground_truth_tok.txt data/predicted.txt
 perl multi-bleu.perl data/ground_truth_tok_preproc.txt < data/predicted_preproc.txt  # use multi_bleu 
